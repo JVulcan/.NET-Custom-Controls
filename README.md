@@ -13,7 +13,7 @@ Modified version of the normal Windows Forms in .NET
 - Add an EDGE color of the form
 
 ### Requirements
-- Using VB.net (at least for now, I'm going to do a C# version)
+- Using VB.net (at least for now, I'm going to do a C# version *someday*)
 - Or you can wrap the class in a DLL and then use it in a C# lang. env.
 
 ### What is missing
@@ -21,8 +21,46 @@ Modified version of the normal Windows Forms in .NET
 - The new standard (since Win 7) behavior of normal Forms: When you drag the Form along with your cursor pointer to an edge of the screen.
 
 ### How to use it
-- Add this class to your proyect
+- Add the FormV2 class to your project
 - Create a new Form from your Visual Studio env.
 - Go to the .design file your new Form has.
 - Change the inheritance code saying your new Form inherites this class
 - Profit
+
+- - -
+## .NET Descriptive Button
+A button that shows a description when the mouse is over
+
+### Requirements
+- Using VB.net (at least for now, I'm going to do a C# version *someday*)
+- Or you can wrap the class in a DLL and then use it in a C# lang. env.
+
+### How to use it
+- Add the DescButton class to your project
+- Build your project
+- Now the control will be visible in the Components (YourProjectName) section of your Tools box tab (its at first)
+- Drag the control to your Form
+- Customize it
+- Profit
+
+### What is missing
+- C# version of this class.
+
+- - -
+## .NET Custom Groupbox
+I was bored of use that un-customizable container, so I made a Customizable GroupBox
+
+### Requirements
+- Using VB.net (at least for now, I'm going to do a C# version *someday*)
+- Or you can wrap the class in a DLL and then use it in a C# lang. env.
+
+### How to use it
+- Add the CustomGroupBox class to your project
+- Build your project
+- Now the control will be visible in the Components (YourProjectName) section of your Tools box tab (its at first)
+- Drag the control to your Form
+- Customize it
+- Profit
+
+### What is missing
+- C# version of this class.
