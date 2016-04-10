@@ -64,3 +64,23 @@ I was bored of use that un-customizable container, so I made a Customizable Grou
 
 ### What is missing
 - C# version of this class.
+
+- - - 
+## .NET Boolean Control
+Like a checkbox but with a completly different design. It has 2 types: Rounded and Squared. Rounded is bugged because the .NET "Engine" doesn't stand the quantity of re-draws (uses an animation), but I decided to let it be just in case you are curious.
+JUST USE THE SQUARE TYPE!! xd
+
+### Requirements
+- Same as previous Controls shown above.
+
+### How to use it
+- Same as CustomGroupBox
+
+### What is missing
+- C# version
+
+- - -
+
+- - -
+# TODO
+Upload images of the Controls of this repo
