@@ -4,7 +4,7 @@ Custom controls I have made
 ## .NET FormV2
 Modified version of the normal Windows Forms in .NET
 
-### What changes where made?
+### What's the difference with the original one?
 - When it shows is with a fade-in and fade-out effect (can be disabled too).
 - Well, you can change the title bar color along with its font.
 - You can adjust the border width and its color too.
