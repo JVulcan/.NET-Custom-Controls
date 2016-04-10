@@ -788,7 +788,7 @@ Public Class FormV2
     End Sub
 
     ''' <summary>
-    ''' Indicates if the MouseEventArgs position intersects with the Exit button position
+    ''' Indicates if the MouseEventArgs position intersects with the  provided rectangle position
     ''' </summary>
     ''' <param name="e">Arguments of Mouse to analize</param>
     ''' <returns></returns>
