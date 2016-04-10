@@ -27,9 +27,13 @@ Modified version of the normal Windows Forms in .NET
 - Change the inheritance code saying your new Form inherites this class
 - Profit
 
+### Screenshots
+![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/FormV2_1.jpg)
+![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/FormV2_2.jpg)
+
 - - -
 ## .NET Descriptive Button
-A button that shows a description when the mouse is over
+A button that shows a description when the mouse is over, the transition to show and hide the description is full animated!
 
 ### Requirements
 - Using VB.net (at least for now, I'm going to do a C# version *someday*)
@@ -46,6 +50,10 @@ A button that shows a description when the mouse is over
 ### What is missing
 - C# version of this class.
 
+### Screenshots
+![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/DescButton_1.jpg)
+![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/DescButton_2.jpg)
+The transition IS ANIMATED!
 - - -
 ## .NET Custom Groupbox
 I was bored of use that un-customizable container, so I made a Customizable GroupBox
@@ -65,6 +73,9 @@ I was bored of use that un-customizable container, so I made a Customizable Grou
 ### What is missing
 - C# version of this class.
 
+### Screenshots
+![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/CustomGroupbox_1.jpg)
+![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/CustomGroupbox_2.jpg)
 - - - 
 ## .NET Boolean Control
 Like a checkbox but with a completly different design. It has 2 types: Rounded and Squared. Rounded is bugged because the .NET "Engine" doesn't stand the quantity of re-draws (uses an animation), but I decided to let it be just in case you are curious.
@@ -79,8 +90,11 @@ JUST USE THE SQUARE TYPE!! xd
 ### What is missing
 - C# version
 
+### Screenshots
+![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/BooleanControl_1.jpg)
+![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/BooleanControl_2.jpg)
 - - -
 
 - - -
 # TODO
-Upload images of the Controls of this repo
+C# version of *every* file D:
