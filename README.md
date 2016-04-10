@@ -1,5 +1,5 @@
-# .NET-Form-V2
-Modified version of the normal Windows Form in .NET
+# .NET FormV2
+Modified version of the normal Windows Forms in .NET
 
 # What changes where made?
 - When it shows is with a fade-in and fade-out effect (can be disabled too).
