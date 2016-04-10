@@ -14,11 +14,11 @@ Modified version of the normal Windows Form in .NET
 - Or you can wrap the class in a DLL and then use it in a C# lang. env.
 
 # What is missing
-- My native language is Spanish so there are spanish-write code (not all). I'm going to translate it right away.
 - C# version of this class.
 - The new standard (since Win 7) behavior of normal Forms: When you drag the Form along with your cursor pointer to an edge of the screen.
 
 # How to use it
+- Add this class to your proyect
 - Create a new Form from your Visual Studio env.
 - Go to the .design file your new Form has.
 - Change the inheritance code saying your new Form inherites this class
