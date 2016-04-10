@@ -1,4 +1,4 @@
-Imports System.Windows.Forms
+﻿Imports System.Windows.Forms
 Imports System.Drawing
 Imports System.ComponentModel
 Imports System.Runtime.InteropServices
@@ -41,14 +41,14 @@ Public Class FormV2
 
     'MinMax states for Minimize and Maximize buttons
     Dim _MinMaxIconColorIdle As Color
-    Dim _MinMaxIconColorOver As Color
-    Dim _MinMaxIconBackColorOver As Color
+    Dim _MinMaxIconColorHover As Color
+    Dim _MinMaxIconBackColorHover As Color
 
     'bto salir
     Dim _ExitIconColorIdle As Color
     Dim _ExitIconBackColorIdle As Color
 
-    Private Enum Overbutton
+    Private Enum Hoverbutton
         None = -1
         Exit_ = 0
         Maximize = 1
@@ -89,15 +89,15 @@ Public Class FormV2
     End Structure
 
     Dim _TitleAlign As TitleFormAlign
-    Dim OverState As Overbutton = Overbutton.None
+    Dim HoverState As Hoverbutton = Hoverbutton.None
 
     Private Const MinTitleBarHeight As Integer = 22
     Dim rectExit As New Rectangle(0, 0, 45, MinTitleBarHeight)
     Dim rectMinimize As New Rectangle(0, 0, 30, MinTitleBarHeight)
     Dim rectMaximize As New Rectangle(0, 0, 30, MinTitleBarHeight)
 
-    ' double click event over title bar was bugged, it never worked so
-    ' I re-made this behaviour in order to be able to Maximize the Form is a Double Click is performed over the Title
+    ' double click event Hover title bar was bugged, it never worked so
+    ' I re-made this behaviour in order to be able to Maximize the Form is a Double Click is performed Hover the Title
     Dim WithEvents timerDblClk As New Timer With {.Interval = SystemInformation.DoubleClickTime}
 
     Dim _CanResize As Boolean
@@ -130,9 +130,9 @@ Public Class FormV2
         _edgeColor = Color.Silver
         _ExitIconColorIdle = Color.Black
         _ExitIconBackColorIdle = Color.LightSkyBlue
-        _MinMaxIconColorOver = Color.White
+        _MinMaxIconColorHover = Color.White
         _MinMaxIconColorIdle = Color.Black
-        _MinMaxIconBackColorOver = Color.SteelBlue
+        _MinMaxIconBackColorHover = Color.SteelBlue
         Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None
         _TitleAlign = TitleFormAlign.Center
         _CanResize = True
@@ -200,23 +200,23 @@ Public Class FormV2
         End Set
     End Property
     ''' <summary>
-    ''' Background Color of the Minimize and Maximize buttons when the mouse is over them
+    ''' Background Color of the Minimize and Maximize buttons when the mouse is Hover them
     ''' </summary>
     ''' <returns></returns>
-    Public Property MinMaxIconBackColorOver As Color
+    Public Property MinMaxIconBackColorHover As Color
         Get
-            Return _MinMaxIconBackColorOver
+            Return _MinMaxIconBackColorHover
         End Get
         Set(ByVal value As Color)
-            If value <> _MinMaxIconBackColorOver Then
-                _MinMaxIconBackColorOver = value
+            If value <> _MinMaxIconBackColorHover Then
+                _MinMaxIconBackColorHover = value
                 Me.Invalidate(rectMaximize)
                 Me.Invalidate(rectMinimize)
             End If
         End Set
     End Property
     ''' <summary>
-    ''' Background Color of the Minimize and Maximize buttons when the mouse is not over them
+    ''' Background Color of the Minimize and Maximize buttons when the mouse is not Hover them
     ''' </summary>
     ''' <returns></returns>
     Public Property MinMaxIconColorIdle As Color
@@ -232,16 +232,16 @@ Public Class FormV2
         End Set
     End Property
     ''' <summary>
-    ''' Icon Color of the Minimize and Maximize buttons when the mouse is over them
+    ''' Icon Color of the Minimize and Maximize buttons when the mouse is Hover them
     ''' </summary>
     ''' <returns></returns>
-    Public Property MinMaxIconColorOver As Color
+    Public Property MinMaxIconColorHover As Color
         Get
-            Return _MinMaxIconColorOver
+            Return _MinMaxIconColorHover
         End Get
         Set(ByVal value As Color)
-            If value <> _MinMaxIconColorOver Then
-                _MinMaxIconColorOver = value
+            If value <> _MinMaxIconColorHover Then
+                _MinMaxIconColorHover = value
                 Me.Invalidate(rectMaximize)
                 Me.Invalidate(rectMinimize)
             End If
@@ -263,7 +263,7 @@ Public Class FormV2
         End Set
     End Property
     ''' <summary>
-    ''' Color of the × when the mouse is not over it
+    ''' Color of the × when the mouse is not Hover it
     ''' </summary>
     ''' <returns></returns>
     Public Property ExitIconColorIdle As Color
@@ -278,7 +278,7 @@ Public Class FormV2
         End Set
     End Property
     ''' <summary>
-    ''' Background Color of the × icon when the mouse is not over
+    ''' Background Color of the × icon when the mouse is not Hover
     ''' </summary>
     ''' <returns></returns>
     Public Property ExitIconBackColorIdle As Color
@@ -489,7 +489,7 @@ Public Class FormV2
                 Dim _backColor As New SolidBrush(Me._ExitIconBackColorIdle)
                 Dim colorIcon As New SolidBrush(Me._ExitIconColorIdle)
                 UpdateRectPosition()
-                If OverState = Overbutton.Exit_ Then
+                If HoverState = Hoverbutton.Exit_ Then
                     _backColor.Color = Color.Firebrick
                     colorIcon.Color = Color.White
                 End If
@@ -503,9 +503,9 @@ Public Class FormV2
                 If Me.MaximizeBox Then
                     _backColor = New SolidBrush(Me.BackColor)
                     colorIcon = New SolidBrush(Me._MinMaxIconColorIdle)
-                    If OverState = Overbutton.Maximize Then
-                        _backColor.Color = _MinMaxIconBackColorOver
-                        colorIcon.Color = Me._MinMaxIconColorOver
+                    If HoverState = Hoverbutton.Maximize Then
+                        _backColor.Color = _MinMaxIconBackColorHover
+                        colorIcon.Color = Me._MinMaxIconColorHover
                     End If
                     If _backColor.Color <> Me.BackColor Then g.FillRectangle(_backColor, rectMaximize)
                     rectIcon.X = rectMaximize.X + Math.Floor((rectMaximize.Width - rectIcon.Width) / 2.0F)
@@ -521,9 +521,9 @@ Public Class FormV2
                 If Me.MinimizeBox Then
                     _backColor = New SolidBrush(Me.BackColor)
                     colorIcon = New SolidBrush(Me._MinMaxIconColorIdle)
-                    If OverState = Overbutton.Minimize Then
-                        _backColor.Color = _MinMaxIconBackColorOver
-                        colorIcon.Color = Me._MinMaxIconColorOver
+                    If HoverState = Hoverbutton.Minimize Then
+                        _backColor.Color = _MinMaxIconBackColorHover
+                        colorIcon.Color = Me._MinMaxIconColorHover
                     End If
                     If _backColor.Color <> Me.BackColor Then g.FillRectangle(_backColor, rectMinimize)
                     rectIcon.X = rectMinimize.X + Math.Floor((rectMinimize.Width - rectIcon.Width) / 2.0F)
@@ -545,7 +545,7 @@ Public Class FormV2
         End Using
     End Sub
 #End Region
-    ' There was a bug when at maximize the Form used all the screen (even over the taskbar XD)
+    ' There was a bug when at maximize the Form used all the screen (even Hover the taskbar XD)
     ' so this is the fix for that bug
 
     Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
@@ -595,28 +595,28 @@ Public Class FormV2
         If Me.ControlBox And Not resizeInfo.Activated Then
             'Exit button
             If IntersectsWithRect(e, rectExit) Then
-                If OverState <> Overbutton.Exit_ Then
-                    Dim previous As Overbutton = OverState
-                    OverState = Overbutton.Exit_
+                If HoverState <> Hoverbutton.Exit_ Then
+                    Dim previous As Hoverbutton = HoverState
+                    HoverState = Hoverbutton.Exit_
                     InvalidateButton(previous)
                     Me.Invalidate(rectExit)
                 End If
             ElseIf Me.MaximizeBox AndAlso IntersectsWithRect(e, rectMaximize) Then
-                If OverState <> Overbutton.Maximize Then
-                    Dim previous As Overbutton = OverState
-                    OverState = Overbutton.Maximize
+                If HoverState <> Hoverbutton.Maximize Then
+                    Dim previous As Hoverbutton = HoverState
+                    HoverState = Hoverbutton.Maximize
                     InvalidateButton(previous)
                     Me.Invalidate(rectMaximize)
                 End If
             ElseIf Me.MinimizeBox AndAlso IntersectsWithRect(e, rectMinimize) Then
-                If OverState <> Overbutton.Minimize Then
-                    Dim previous As Overbutton = OverState
-                    OverState = Overbutton.Minimize
+                If HoverState <> Hoverbutton.Minimize Then
+                    Dim previous As Hoverbutton = HoverState
+                    HoverState = Hoverbutton.Minimize
                     InvalidateButton(previous)
                     Me.Invalidate(rectMinimize)
                 End If
             Else
-                If OverState <> Overbutton.None Then
+                If HoverState <> Hoverbutton.None Then
                     UpdatePrevious()
                 End If
             End If
@@ -727,10 +727,10 @@ Public Class FormV2
     Protected Overrides Sub OnMouseUp(ByVal e As System.Windows.Forms.MouseEventArgs)
         If IntersectsWithRect(e, rectMinimize) Then CurPos2 = rectMinimize Else If IntersectsWithRect(e, rectMaximize) Then CurPos2 = rectMaximize Else If IntersectsWithRect(e, rectExit) Then CurPos2 = rectExit
         If Not resizeInfo.Activated AndAlso CurPos1 = CurPos2 Then
-            Select Case OverState
-                Case Overbutton.Exit_
+            Select Case HoverState
+                Case Hoverbutton.Exit_
                     Me.Close()
-                Case Overbutton.Maximize
+                Case Hoverbutton.Maximize
                     If WindowState = FormWindowState.Maximized Then
                         WindowState = FormWindowState.Normal
                         Me.Invalidate()
@@ -739,10 +739,10 @@ Public Class FormV2
                         WindowState = FormWindowState.Maximized
                         Me.Invalidate(rect)
                     End If
-                Case Overbutton.Minimize
+                Case Hoverbutton.Minimize
                     WindowState = FormWindowState.Minimized
             End Select
-            OverState = Overbutton.None
+            HoverState = Hoverbutton.None
             'OnMouseMove(e)
         End If
         MyBase.OnMouseUp(e)
@@ -823,25 +823,25 @@ Public Class FormV2
     End Sub
 
     Private Sub UpdatePrevious()
-        Dim previous As Overbutton = OverState
-        OverState = Overbutton.None
+        Dim previous As Hoverbutton = HoverState
+        HoverState = Hoverbutton.None
         Select Case previous
-            Case Overbutton.Maximize
+            Case Hoverbutton.Maximize
                 Me.Invalidate(rectMaximize)
-            Case Overbutton.Minimize
+            Case Hoverbutton.Minimize
                 Me.Invalidate(rectMinimize)
-            Case Overbutton.Exit_
+            Case Hoverbutton.Exit_
                 Me.Invalidate(rectExit)
         End Select
     End Sub
 
-    Private Sub InvalidateButton(ByVal state As Overbutton)
+    Private Sub InvalidateButton(ByVal state As Hoverbutton)
         Select Case state
-            Case Overbutton.Maximize
+            Case Hoverbutton.Maximize
                 Invalidate(rectMaximize)
-            Case Overbutton.Minimize
+            Case Hoverbutton.Minimize
                 Invalidate(rectMinimize)
-            Case Overbutton.Exit_
+            Case Hoverbutton.Exit_
                 Invalidate(rectExit)
         End Select
     End Sub
