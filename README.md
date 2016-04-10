@@ -11,7 +11,7 @@ Modified version of the normal Windows Form in .NET
 
 # Requirements
 - Using VB.net (at least for now, I'm going to do a C# version)
-- Or you can wrap the class in a DLL and use it in a C# lang. env.
+- Or you can wrap the class in a DLL and then use it in a C# lang. env.
 
 # What is missing
 - My native language is Spanish so there are spanish-write code (not all). I'm going to translate it right away.
