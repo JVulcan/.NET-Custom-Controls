@@ -29,6 +29,8 @@ Modified version of the normal Windows Forms in .NET
 
 ### Screenshots
 ![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/FormV2_1.jpg)
+
+**along with the Form, you can spot a BooleanControl (right of "Must Evaluate") and a CustomGroupBox (the container of the BooleanControl).**
 ![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/FormV2_2.jpg)
 
 - - -
@@ -76,6 +78,8 @@ I was bored of use that un-customizable container, so I made a Customizable Grou
 ### Screenshots
 ![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/CustomGroupbox_1.jpg)
 ![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/CustomGroupbox_2.jpg)
+
+**Border width and color are customizable.**
 - - - 
 ## .NET Boolean Control
 Like a checkbox but with a completly different design. It has 2 types: Rounded and Squared. Rounded is bugged because the .NET "Engine" doesn't stand the quantity of re-draws (uses an animation), but I decided to let it be just in case you are curious.
@@ -93,6 +97,8 @@ JUST USE THE SQUARE TYPE!! xd
 ### Screenshots
 ![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/BooleanControl_1.jpg)
 ![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/BooleanControl_2.jpg)
+
+**The button is slightly highlighted when the mouse is hover it, like in the second screenshot.**
 - - -
 
 - - -
