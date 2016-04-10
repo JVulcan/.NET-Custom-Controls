@@ -35,7 +35,7 @@ Modified version of the normal Windows Forms in .NET
 
 - - -
 ## .NET Descriptive Button
-A button that shows a description when the mouse is over, the transition to show and hide the description is full animated!
+A button that shows a description when the mouse is hover, the transition to show and hide the description is full animated!
 
 ### Requirements
 - Using VB.net (at least for now, I'm going to do a C# version *someday*)
