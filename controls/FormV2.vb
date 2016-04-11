@@ -44,7 +44,7 @@ Public Class FormV2
     Dim _MinMaxIconColorHover As Color
     Dim _MinMaxIconBackColorHover As Color
 
-    'bto salir
+    'btn exit
     Dim _ExitIconColorIdle As Color
     Dim _ExitIconBackColorIdle As Color
 
