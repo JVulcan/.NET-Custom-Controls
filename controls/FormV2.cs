@@ -120,7 +120,7 @@ public class FormV2 : System.Windows.Forms.Form
 
 	Rectangle rectMaximize = new Rectangle(0, 0, 30, MinTitleBarHeight);
 	// double click event Hover title bar was bugged, it never worked so
-	// I re-made this behaviour in order to be able to Maximize the Form is a Double Click is performed Hover the Title
+	// I re-made this behaviour in order to be able to Maximize the Form when a Double Click is performed Hover the Title
 	private Timer withEventsField_timerDblClk = new Timer { Interval = SystemInformation.DoubleClickTime };
 	public Timer timerDblClk {
 		get { return withEventsField_timerDblClk; }
