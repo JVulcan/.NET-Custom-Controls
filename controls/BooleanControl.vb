@@ -4,6 +4,13 @@ Imports System.Drawing
 Public Class BooleanControl
     Inherits Control
 
+    '
+    '       WARNING !!
+    '
+    '       ROUNDED TYPE IS UGLY AND UNSUITABLE FOR WORK
+    '       THE FORMS "ENGINE" DOESNT FIT WITH I WAS TRYING TO DO FOR THE ROUNDED ONE
+    '       BUT YOU CAN CHECK IT OUT
+
     Public Enum BooleanControlStyles
         Rounded = 0
         SquareText = 1
@@ -13,16 +20,16 @@ Public Class BooleanControl
     Dim _timer As Timer
     Dim _value As Boolean
     Dim Rectangle As Rectangle
-    Dim estado As Byte = 0
+    Dim state As Byte = 0
     Dim velocity As Single
     Dim _txtTrue As String
     Dim _txtFalse As String
     Dim _hover As Boolean
 
     ''' <summary>
-    ''' Se desencadena cuando se cambia el valor del Control.
+    ''' Triggered when the value of Control has changed.
     ''' </summary>
-    ''' <param name="sender">Objeto original que cambió su Valor y desencadenó el evento</param>
+    ''' <param name="sender">original Object that changed its value and triggered the event</param>
     ''' <remarks></remarks>
     Public Event ValueChanged(ByVal sender As Object, ByVal e As EventArgs)
 
@@ -39,8 +46,9 @@ Public Class BooleanControl
         BooleanControlStyle = BooleanControlStyles.SquareText
     End Sub
 
+    ' just for rounded type
     Private Sub UpdateVelocity()
-        'la idea es q recorra en 500 milisengundos
+        'the idea is it travels in 500 milliseconds
         velocity = Me.Width * 0.5F / 20.0F
     End Sub
 
@@ -56,6 +64,10 @@ Public Class BooleanControl
         End Set
     End Property
 
+    ''' <summary>
+    ''' (SquareText-Style only) What the Text says when the value represents FALSE (default: NO)
+    ''' </summary>
+    ''' <returns></returns>
     Public Property TextFalse As String
         Get
             Return _txtFalse
@@ -65,7 +77,10 @@ Public Class BooleanControl
             Me.Invalidate()
         End Set
     End Property
-
+    ''' <summary>
+    ''' (SquareText-Style only) What the Text says when the value represents TRUE (default: YES)
+    ''' </summary>
+    ''' <returns></returns>
     Public Property TextTrue As String
         Get
             Return _txtTrue
@@ -75,7 +90,10 @@ Public Class BooleanControl
             Me.Invalidate()
         End Set
     End Property
-
+    ''' <summary>
+    ''' Actual value (true or false)
+    ''' </summary>
+    ''' <returns></returns>
     Public Property Value As Boolean
         Get
             Return _value
@@ -109,7 +127,7 @@ Public Class BooleanControl
     End Sub
 
     Protected Overrides Sub OnClick(ByVal e As System.EventArgs)
-        If estado = 0 Then
+        If state = 0 Then
             Value = Not Value
             _timer.Start()
         End If
@@ -117,39 +135,38 @@ Public Class BooleanControl
     End Sub
 
     Protected Sub Timer_Tick(ByVal sender As Timer, ByVal e As EventArgs)
-        'principio: Rectangle.Location = New Point(0, 0)
-        'final : Rectangle.Location = New Point(Me.Width - Rectangle.Width - 1, 0)
-        estado = 1
+        'Start: Rectangle.Location = New Point(0, 0)
+        'End  : Rectangle.Location = New Point(Me.Width - Rectangle.Width - 1, 0)
+        state = 1
         Select Case Me.BooleanControlStyle
             Case BooleanControlStyles.Rounded
                 Select Case _value
                     Case True
-                        'de false a true
-                        If Rectangle.Location.X < Me.Width - Rectangle.Width - 1 Then 'en pleno vuelo
+                        'from false to true
+                        If Rectangle.Location.X < Me.Width - Rectangle.Width - 1 Then 'in "midair"
                             Rectangle.Location = New Point(Rectangle.X + velocity, Rectangle.Y)
                             Me.Invalidate(New Rectangle(Rectangle.Location.X - velocity, 0, Rectangle.Width + velocity * 2.0F, Rectangle.Height))
-                        Else 'llegó
+                        Else 'it arrived
                             Rectangle.Location = New Point(Me.Width - Rectangle.Width - 1, Rectangle.Y)
-                            estado = 0
+                            state = 0
                             sender.Stop()
                             Me.Invalidate(New Rectangle(Rectangle.Location.X - velocity, 0, Rectangle.Width + velocity * 2.0F, Rectangle.Height))
                         End If
                     Case False
-                        'de true a false
+                        'from true to false
                         If Rectangle.Location.X > 0 Then
                             Rectangle.Location = New Point(Rectangle.X - velocity, Rectangle.Y)
                             Me.Invalidate(New Rectangle(Rectangle.Location.X - velocity, 0, Rectangle.Width + velocity * 3.0F, Rectangle.Height))
                         Else
                             Rectangle.Location = New Point(0, Rectangle.Y)
-                            estado = 0
+                            state = 0
                             sender.Stop()
                             Me.Invalidate(New Rectangle(Rectangle.Location.X - velocity, 0, Rectangle.Width + velocity * 3.0F, Rectangle.Height))
                         End If
                 End Select
             Case BooleanControlStyles.SquareText
-                estado = 0
+                state = 0
                 sender.Stop()
-                'Me.Invalidate()
         End Select
     End Sub
 
@@ -165,164 +182,162 @@ Public Class BooleanControl
 
             Select Case BooleanControlStyle
                 Case BooleanControlStyles.Rounded
-                    Dim borde As Pen = New Pen(Brushes.Silver)
-                    Dim fondoColor As New SolidBrush(Color.Aquamarine)
+                    Dim border As Pen = New Pen(Brushes.Silver)
+                    Dim _backColor As New SolidBrush(Color.Aquamarine)
                     Select Case _value
-                        Case True 'dibujar verde
-                            fondoColor.Color = Color.LimeGreen
-                            borde = New Pen(Brushes.LimeGreen)
-                        Case False 'dibujar gris
-                            fondoColor.Color = Color.WhiteSmoke 'gainsboro , lightgray
-                            borde = New Pen(Brushes.Silver)
+                        Case True 'paint green
+                            _backColor.Color = Color.LimeGreen
+                            border = New Pen(Brushes.LimeGreen)
+                        Case False 'paint gray
+                            _backColor.Color = Color.WhiteSmoke 'gainsboro , lightgray
+                            border = New Pen(Brushes.Silver)
                     End Select
-                    'dibujar fondo
-                    g.FillEllipse(fondoColor, New Rectangle(New Point(diffWidth / 2.0F, diffHeight / 2.0F), New Size(Me.Width * multEllipse, Me.Height - diffHeight)))
-                    g.FillEllipse(fondoColor, New Rectangle(New Point(Me.Width - Me.Width * multEllipse - diffWidth / 2.0F, diffHeight / 2.0F), New Size(Me.Width * multEllipse, Me.Height - diffHeight)))
-                    g.FillRectangle(fondoColor, New Rectangle(New Point(Me.Width * (multEllipse / 2.0F) + diffWidth / 2.0F, diffHeight / 2.0F), New Size(Me.Width * (1.0F - multEllipse) - diffWidth, Me.Height - diffHeight)))
-                    'dibujar borde
+                    'draw background
+                    g.FillEllipse(_backColor, New Rectangle(New Point(diffWidth / 2.0F, diffHeight / 2.0F), New Size(Me.Width * multEllipse, Me.Height - diffHeight)))
+                    g.FillEllipse(_backColor, New Rectangle(New Point(Me.Width - Me.Width * multEllipse - diffWidth / 2.0F, diffHeight / 2.0F), New Size(Me.Width * multEllipse, Me.Height - diffHeight)))
+                    g.FillRectangle(_backColor, New Rectangle(New Point(Me.Width * (multEllipse / 2.0F) + diffWidth / 2.0F, diffHeight / 2.0F), New Size(Me.Width * (1.0F - multEllipse) - diffWidth, Me.Height - diffHeight)))
+                    'draw border
                     Dim rectEllipse As New Rectangle(New Point(diffWidth / 2.0F, diffHeight / 2.0F), New Size(Me.Width * multEllipse, Me.Height - diffHeight))
-                    g.DrawArc(borde, rectEllipse, 180, 90) 'sup. izq
-                    g.DrawArc(borde, rectEllipse, 90, 90) 'inf. izq
+                    g.DrawArc(border, rectEllipse, 180, 90) 'upper left
+                    g.DrawArc(border, rectEllipse, 90, 90) 'bottom left
 
                     rectEllipse.Location = New Point(Me.Width * (1.0F - multEllipse) - diffWidth / 2.0F, diffHeight / 2.0F)
 
-                    g.DrawArc(borde, rectEllipse, 270, 90) 'sup. der
-                    g.DrawArc(borde, rectEllipse, 0, 90) 'inf. der
+                    g.DrawArc(border, rectEllipse, 270, 90) 'upper right
+                    g.DrawArc(border, rectEllipse, 0, 90) 'bottom right
 
-                    g.DrawLine(borde, New Point(diffWidth / 2.0F + Me.Width * multEllipse * 0.5F, diffHeight / 2.0F), New Point(Me.Width - diffWidth / 2.0F - Me.Width * multEllipse * 0.5F, diffHeight / 2.0F)) 'línea superior
-                    g.DrawLine(borde, New Point(diffWidth / 2.0F + Me.Width * multEllipse * 0.5F, Me.Height - diffHeight / 2.0F + 0), New Point(Me.Width - diffWidth / 2.0F - Me.Width * multEllipse * 0.5F, Me.Height - diffHeight / 2.0F + 0)) 'línea inferior
+                    g.DrawLine(border, New Point(diffWidth / 2.0F + Me.Width * multEllipse * 0.5F, diffHeight / 2.0F), New Point(Me.Width - diffWidth / 2.0F - Me.Width * multEllipse * 0.5F, diffHeight / 2.0F)) 'línea superior
+                    g.DrawLine(border, New Point(diffWidth / 2.0F + Me.Width * multEllipse * 0.5F, Me.Height - diffHeight / 2.0F + 0), New Point(Me.Width - diffWidth / 2.0F - Me.Width * multEllipse * 0.5F, Me.Height - diffHeight / 2.0F + 0)) 'línea inferior
 
 
-                    borde.Dispose()
-                    fondoColor.Dispose()
-                    'g.FillRectangle(Brushes.Transparent, New Rectangle(0, 0, Me.Width, Me.Height))
-                    Dim borde1 As Pen = Nothing
+                    border.Dispose()
+                    _backColor.Dispose()
+
+                    Dim border1 As Pen = Nothing
                     Select Case Value
                         Case False
-                            'Rectangle.Location = New Point(0, 0)
-                            borde1 = New Pen(Brushes.Silver)
+                            border1 = New Pen(Brushes.Silver)
                         Case True
-                            'Rectangle.Location = New Point(Me.Width - Rectangle.Width - 1, 0)
-                            borde1 = New Pen(Brushes.LimeGreen)
+                            border1 = New Pen(Brushes.LimeGreen)
                     End Select
 
                     g.FillEllipse(New SolidBrush(Color.WhiteSmoke), Rectangle)
-                    g.DrawEllipse(borde1, Rectangle)
-                    borde.Dispose()
+                    g.DrawEllipse(border1, Rectangle)
+                    border.Dispose()
                 Case BooleanControlStyles.SquareText
 
-                    Dim fondoBase As New SolidBrush(Color.DarkGray) 'With {.Color = Color.FromArgb(128, Color.Silver)}
-                    Dim fondoBaseChico As New SolidBrush(Color.FromArgb(fondoBase.Color.R * 0.9F, fondoBase.Color.G * 0.9F, fondoBase.Color.B * 0.9F))
-                    Dim fondoCuadroPalabra As New SolidBrush(Color.DarkGray)
+                    Dim backBase As New SolidBrush(Color.DarkGray) 'With {.Color = Color.FromArgb(128, Color.Silver)}
+                    Dim backSmallBase As New SolidBrush(Color.FromArgb(backBase.Color.R * 0.9F, backBase.Color.G * 0.9F, backBase.Color.B * 0.9F))
+                    Dim backTextBox As New SolidBrush(Color.DarkGray)
 
-                    Dim anchoCuadro As Single = 0.6F
-                    Dim RectCuadro As New Rectangle(Point.Empty, New Size(Me.Width * anchoCuadro, Me.Height - 2))
-                    Dim RectCuadroChico As New Rectangle(New Point((Me.Width - Me.Width * 0.7F) / 2.0F, RectCuadro.Height * 0.25F + 1), New Size(Me.Width * 0.7F, RectCuadro.Height / 2.0F))
+                    Dim widthBox As Single = 0.6F
+                    Dim RectBox As New Rectangle(Point.Empty, New Size(Me.Width * widthBox, Me.Height - 2))
+                    Dim RectSmallBox As New Rectangle(New Point((Me.Width - Me.Width * 0.7F) / 2.0F, RectBox.Height * 0.25F + 1), New Size(Me.Width * 0.7F, RectBox.Height / 2.0F))
 
-                    Dim bruLineaSuperior As SolidBrush = Nothing
-                    Dim bruLineaInferior As SolidBrush = Nothing
+                    Dim bruSuperiorLine As SolidBrush = Nothing
+                    Dim bruInferiorLine As SolidBrush = Nothing
 
                     Select Case Value
                         Case False
-                            fondoBase.Color = Color.FromArgb(255, Color.DarkGray)
-                            fondoCuadroPalabra.Color = Color.FromArgb(255, Color.Firebrick)
-                            RectCuadro.Location = New Point(0, 1)
-                            bruLineaSuperior = New SolidBrush(Color.FromArgb(255, Color.IndianRed))
-                            bruLineaInferior = New SolidBrush(Color.FromArgb(255, Color.DarkRed))
+                            backBase.Color = Color.FromArgb(255, Color.DarkGray)
+                            backTextBox.Color = Color.FromArgb(255, Color.Firebrick)
+                            RectBox.Location = New Point(0, 1)
+                            bruSuperiorLine = New SolidBrush(Color.FromArgb(255, Color.IndianRed))
+                            bruInferiorLine = New SolidBrush(Color.FromArgb(255, Color.DarkRed))
                         Case True
-                            fondoBase.Color = Color.FromArgb(255, Color.DarkGray) 'forestgreen
-                            fondoCuadroPalabra.Color = Color.FromArgb(255, Color.ForestGreen)
-                            RectCuadro.Location = New Point(Me.Width * (1.0F - anchoCuadro), 1)
-                            bruLineaSuperior = New SolidBrush(Color.FromArgb(255, Color.LimeGreen))
-                            bruLineaInferior = New SolidBrush(Color.FromArgb(255, Color.DarkGreen))
+                            backBase.Color = Color.FromArgb(255, Color.DarkGray) 'forestgreen
+                            backTextBox.Color = Color.FromArgb(255, Color.ForestGreen)
+                            RectBox.Location = New Point(Me.Width * (1.0F - widthBox), 1)
+                            bruSuperiorLine = New SolidBrush(Color.FromArgb(255, Color.LimeGreen))
+                            bruInferiorLine = New SolidBrush(Color.FromArgb(255, Color.DarkGreen))
                     End Select
 
-                    'dibujar fondo gris
-                    Dim espaciadoBorde As Integer = Me.Height * 0.1F
-                    Dim pathFondo As New Drawing2D.GraphicsPath(Drawing2D.FillMode.Alternate)
-                    pathFondo.AddLines({New Point(0 + espaciadoBorde, 0),
-                                        New Point(Me.Width - 1 - espaciadoBorde, 0),
-                                        New Point(Me.Width - 1, espaciadoBorde),
-                                        New Point(Me.Width - 1, Me.Height - 1 - espaciadoBorde),
-                                        New Point(Me.Width - 1 - espaciadoBorde, Me.Height - 1),
-                                        New Point(0 + espaciadoBorde, Me.Height - 1),
-                                        New Point(0, Me.Height - espaciadoBorde),
-                                        New Point(0, espaciadoBorde),
-                                        New Point(0 + espaciadoBorde, 0)
+                    'draw gray background
+                    Dim BorderSpacing As Integer = Me.Height * 0.1F
+                    Dim pathBack As New Drawing2D.GraphicsPath(Drawing2D.FillMode.Alternate)
+                    pathBack.AddLines({New Point(0 + BorderSpacing, 0),
+                                        New Point(Me.Width - 1 - BorderSpacing, 0),
+                                        New Point(Me.Width - 1, BorderSpacing),
+                                        New Point(Me.Width - 1, Me.Height - 1 - BorderSpacing),
+                                        New Point(Me.Width - 1 - BorderSpacing, Me.Height - 1),
+                                        New Point(0 + BorderSpacing, Me.Height - 1),
+                                        New Point(0, Me.Height - BorderSpacing),
+                                        New Point(0, BorderSpacing),
+                                        New Point(0 + BorderSpacing, 0)
                                        })
 
-                    Dim espaciadoBorde2 As Single = espaciadoBorde / 2.0F
-                    Dim pathChico As New Drawing2D.GraphicsPath
-                    pathChico.AddLines({New Point(RectCuadroChico.Location.X + espaciadoBorde2, RectCuadroChico.Location.Y),
-                                   New Point(RectCuadroChico.Location.X + RectCuadroChico.Width - espaciadoBorde2, RectCuadroChico.Location.Y),
-                                   New Point(RectCuadroChico.Location.X + RectCuadroChico.Width, RectCuadroChico.Y + espaciadoBorde2),
-                                   New Point(RectCuadroChico.Location.X + RectCuadroChico.Width, RectCuadroChico.Location.Y + RectCuadroChico.Height - espaciadoBorde2),
-                                   New Point(RectCuadroChico.Location.X + RectCuadroChico.Width - espaciadoBorde2, RectCuadroChico.Location.Y + RectCuadroChico.Height),
-                                   New Point(RectCuadroChico.Location.X + espaciadoBorde2, RectCuadroChico.Location.Y + RectCuadroChico.Height),
-                                   New Point(RectCuadroChico.Location.X, RectCuadroChico.Location.Y + RectCuadroChico.Height - espaciadoBorde2),
-                                   New Point(RectCuadroChico.Location.X, RectCuadroChico.Location.Y + espaciadoBorde2),
-                                   New Point(RectCuadroChico.Location.X + espaciadoBorde2, RectCuadroChico.Location.Y)
+                    Dim BorderSpacing2 As Single = BorderSpacing / 2.0F
+                    Dim pathSmall As New Drawing2D.GraphicsPath
+                    pathSmall.AddLines({New Point(RectSmallBox.Location.X + BorderSpacing2, RectSmallBox.Location.Y),
+                                   New Point(RectSmallBox.Location.X + RectSmallBox.Width - BorderSpacing2, RectSmallBox.Location.Y),
+                                   New Point(RectSmallBox.Location.X + RectSmallBox.Width, RectSmallBox.Y + BorderSpacing2),
+                                   New Point(RectSmallBox.Location.X + RectSmallBox.Width, RectSmallBox.Location.Y + RectSmallBox.Height - BorderSpacing2),
+                                   New Point(RectSmallBox.Location.X + RectSmallBox.Width - BorderSpacing2, RectSmallBox.Location.Y + RectSmallBox.Height),
+                                   New Point(RectSmallBox.Location.X + BorderSpacing2, RectSmallBox.Location.Y + RectSmallBox.Height),
+                                   New Point(RectSmallBox.Location.X, RectSmallBox.Location.Y + RectSmallBox.Height - BorderSpacing2),
+                                   New Point(RectSmallBox.Location.X, RectSmallBox.Location.Y + BorderSpacing2),
+                                   New Point(RectSmallBox.Location.X + BorderSpacing2, RectSmallBox.Location.Y)
                                        })
 
-                    g.FillPath(fondoBase, pathFondo)
+                    g.FillPath(backBase, pathBack)
 
-                    g.FillPath(fondoBaseChico, pathChico)
-                    'fin dibujo fondo gris
+                    g.FillPath(backSmallBase, pathSmall)
+                    'end draw gray background
 
-                    'dibujar cuadro que contiene palabra
+                    'draw box that contains the text
                     Dim path As New Drawing2D.GraphicsPath
-                    path.AddLines({New Point(RectCuadro.Location.X + espaciadoBorde, RectCuadro.Location.Y),
-                                   New Point(RectCuadro.Location.X + RectCuadro.Width - espaciadoBorde, RectCuadro.Location.Y),
-                                   New Point(RectCuadro.Location.X + RectCuadro.Width, RectCuadro.Y + espaciadoBorde),
-                                   New Point(RectCuadro.Location.X + RectCuadro.Width, RectCuadro.Location.Y + RectCuadro.Height - espaciadoBorde),
-                                   New Point(RectCuadro.Location.X + RectCuadro.Width - espaciadoBorde, RectCuadro.Location.Y + RectCuadro.Height),
-                                   New Point(RectCuadro.Location.X + espaciadoBorde, RectCuadro.Location.Y + RectCuadro.Height),
-                                   New Point(RectCuadro.Location.X, RectCuadro.Location.Y + RectCuadro.Height - espaciadoBorde),
-                                   New Point(RectCuadro.Location.X, RectCuadro.Location.Y + espaciadoBorde),
-                                   New Point(RectCuadro.Location.X + espaciadoBorde, RectCuadro.Location.Y)
+                    path.AddLines({New Point(RectBox.Location.X + BorderSpacing, RectBox.Location.Y),
+                                   New Point(RectBox.Location.X + RectBox.Width - BorderSpacing, RectBox.Location.Y),
+                                   New Point(RectBox.Location.X + RectBox.Width, RectBox.Y + BorderSpacing),
+                                   New Point(RectBox.Location.X + RectBox.Width, RectBox.Location.Y + RectBox.Height - BorderSpacing),
+                                   New Point(RectBox.Location.X + RectBox.Width - BorderSpacing, RectBox.Location.Y + RectBox.Height),
+                                   New Point(RectBox.Location.X + BorderSpacing, RectBox.Location.Y + RectBox.Height),
+                                   New Point(RectBox.Location.X, RectBox.Location.Y + RectBox.Height - BorderSpacing),
+                                   New Point(RectBox.Location.X, RectBox.Location.Y + BorderSpacing),
+                                   New Point(RectBox.Location.X + BorderSpacing, RectBox.Location.Y)
                                   })
 
-                    g.FillPath(fondoCuadroPalabra, path)
-                    'fin dbujo cuadro
+                    g.FillPath(backTextBox, path)
+                    'end draw box
 
-                    'dibujar efecto de luz si mouse está encima
+                    'draw effect of highlight if mouse is hover
                     If _hover Then
                         Dim pathSup As New Drawing2D.GraphicsPath
                         Dim pathInf As New Drawing2D.GraphicsPath
 
-                        pathSup.AddLines({New Point(RectCuadro.Location.X + espaciadoBorde, RectCuadro.Location.Y),
-                                          New Point(RectCuadro.Location.X + RectCuadro.Width - espaciadoBorde, RectCuadro.Location.Y),
-                                          New Point(RectCuadro.Location.X + RectCuadro.Width, RectCuadro.Y + espaciadoBorde),
-                                          New Point(RectCuadro.Location.X, RectCuadro.Location.Y + espaciadoBorde),
-                                          New Point(RectCuadro.Location.X + espaciadoBorde, RectCuadro.Location.Y)
+                        pathSup.AddLines({New Point(RectBox.Location.X + BorderSpacing, RectBox.Location.Y),
+                                          New Point(RectBox.Location.X + RectBox.Width - BorderSpacing, RectBox.Location.Y),
+                                          New Point(RectBox.Location.X + RectBox.Width, RectBox.Y + BorderSpacing),
+                                          New Point(RectBox.Location.X, RectBox.Location.Y + BorderSpacing),
+                                          New Point(RectBox.Location.X + BorderSpacing, RectBox.Location.Y)
                                          })
-                        pathInf.AddLines({New Point(RectCuadro.Location.X + RectCuadro.Width, RectCuadro.Location.Y + RectCuadro.Height - espaciadoBorde),
-                                          New Point(RectCuadro.Location.X + RectCuadro.Width - espaciadoBorde, RectCuadro.Location.Y + RectCuadro.Height),
-                                          New Point(RectCuadro.Location.X + espaciadoBorde, RectCuadro.Location.Y + RectCuadro.Height),
-                                          New Point(RectCuadro.Location.X, RectCuadro.Location.Y + RectCuadro.Height - espaciadoBorde),
-                                          New Point(RectCuadro.Location.X + RectCuadro.Width, RectCuadro.Location.Y + RectCuadro.Height - espaciadoBorde)
+                        pathInf.AddLines({New Point(RectBox.Location.X + RectBox.Width, RectBox.Location.Y + RectBox.Height - BorderSpacing),
+                                          New Point(RectBox.Location.X + RectBox.Width - BorderSpacing, RectBox.Location.Y + RectBox.Height),
+                                          New Point(RectBox.Location.X + BorderSpacing, RectBox.Location.Y + RectBox.Height),
+                                          New Point(RectBox.Location.X, RectBox.Location.Y + RectBox.Height - BorderSpacing),
+                                          New Point(RectBox.Location.X + RectBox.Width, RectBox.Location.Y + RectBox.Height - BorderSpacing)
                                          })
-                        g.FillPath(bruLineaSuperior, pathSup)
-                        g.FillPath(bruLineaInferior, pathInf)
+                        g.FillPath(bruSuperiorLine, pathSup)
+                        g.FillPath(bruInferiorLine, pathInf)
 
                         pathSup.Dispose()
                         pathInf.Dispose()
                     End If
-                    'fin efecto luz
+                    'end highlight effect
 
-                    'dibujar palabra
+                    'draw text
                     Dim fontPalabra As Font = Core.FuncionesGenerales.CreateFont("Arial", Me.Height * 0.5, FontStyle.Bold, GraphicsUnit.Pixel)
                     Dim medicion As Size = TextRenderer.MeasureText(IIf(Value, TextTrue, TextFalse), fontPalabra)
-                    g.DrawString(IIf(Value, TextTrue, TextFalse), fontPalabra, Brushes.White, New Point(RectCuadro.Location.X + (RectCuadro.Width - medicion.Width) / 2, (RectCuadro.Height - medicion.Height) / 2 + RectCuadro.Height * 0.05F))
-                    'fin dibujar palabra
+                    g.DrawString(IIf(Value, TextTrue, TextFalse), fontPalabra, Brushes.White, New Point(RectBox.Location.X + (RectBox.Width - medicion.Width) / 2, (RectBox.Height - medicion.Height) / 2 + RectBox.Height * 0.05F))
+                    'end draw text
 
-                    'liberar recursos
+                    'free resources
                     path.Dispose()
-                    pathFondo.Dispose()
-                    bruLineaInferior.Dispose()
-                    bruLineaSuperior.Dispose()
-                    fondoBase.Dispose()
-                    fondoCuadroPalabra.Dispose()
+                    pathBack.Dispose()
+                    bruInferiorLine.Dispose()
+                    bruSuperiorLine.Dispose()
+                    backBase.Dispose()
+                    backTextBox.Dispose()
             End Select
         End Using
     End Sub
