@@ -12,12 +12,7 @@ Modified version of the normal Windows Forms in .NET
 - Adjust the height of the title bar (minimum 22 pixels)
 - Add an EDGE color of the form
 
-### Requirements
-- Using VB.net (at least for now, I'm going to do a C# version *someday*)
-- Or you can wrap the class in a DLL and then use it in a C# lang. env.
-
 ### What is missing
-- C# version of this class.
 - The new standard (since Win 7) behavior of normal Forms: When you drag the Form along with your cursor pointer to an edge of the screen.
 
 ### How to use it
@@ -37,10 +32,6 @@ Modified version of the normal Windows Forms in .NET
 ## .NET Descriptive Button
 A button that shows a description when the mouse is hover, the transition to show and hide the description is full animated!
 
-### Requirements
-- Using VB.net (at least for now, I'm going to do a C# version *someday*)
-- Or you can wrap the class in a DLL and then use it in a C# lang. env.
-
 ### How to use it
 - Add the DescButton class to your project
 - Build your project
@@ -48,9 +39,6 @@ A button that shows a description when the mouse is hover, the transition to sho
 - Drag the control to your Form
 - Customize it
 - Profit
-
-### What is missing
-- C# version of this class.
 
 ### Screenshots
 ![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/DescButton_1.jpg)
@@ -60,10 +48,6 @@ The transition IS ANIMATED!
 ## .NET Custom Groupbox
 I was bored of use that un-customizable container, so I made a Customizable GroupBox
 
-### Requirements
-- Using VB.net (at least for now, I'm going to do a C# version *someday*)
-- Or you can wrap the class in a DLL and then use it in a C# lang. env.
-
 ### How to use it
 - Add the CustomGroupBox class to your project
 - Build your project
@@ -71,9 +55,6 @@ I was bored of use that un-customizable container, so I made a Customizable Grou
 - Drag the control to your Form
 - Customize it
 - Profit
-
-### What is missing
-- C# version of this class.
 
 ### Screenshots
 ![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/CustomGroupbox_1.jpg)
@@ -85,14 +66,8 @@ I was bored of use that un-customizable container, so I made a Customizable Grou
 Like a checkbox but with a completly different design. It has 2 types: Rounded and Squared. Rounded is bugged because the .NET "Engine" doesn't stand the quantity of re-draws (uses an animation), but I decided to let it be just in case you are curious.
 JUST USE THE SQUARE TYPE!! xd
 
-### Requirements
-- Same as previous Controls shown above.
-
 ### How to use it
 - Same as CustomGroupBox
-
-### What is missing
-- C# version
 
 ### Screenshots
 ![alt tag](https://github.com/JVulcan/.NET-Custom-Controls/blob/master/images/BooleanControl_1.jpg)
@@ -103,4 +78,3 @@ JUST USE THE SQUARE TYPE!! xd
 
 - - -
 # TODO
-C# version of *every* file D:
